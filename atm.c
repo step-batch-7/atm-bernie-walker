@@ -1,18 +1,20 @@
+#include "atm.h"
+
 unsigned int get_money(unsigned short int amount)
 {
-  int result = 0x00000000;
-  int denom[] = {2000, 500, 100, 50, 20, 10, 5, 1};
+  unsigned int result = 0;
+  denom notes = denominations;
 
   if (amount > 31999)
   {
     return result;
   }
 
-  for (int i = 0; i < 8; i++)
+  for (short int i = 0; i < 8; i++)
   {
-    result = result << 4;
-    result = result | (amount / denom[i]);
-    amount = amount % denom[i];
+    result <<= 4;
+    result |= amount / notes[i];
+    amount %= notes[i];
   };
 
   return result;

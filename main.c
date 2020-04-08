@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include "atm.h"
 
+#define hex_msb 0xf0000000
+
 void print_denoms(unsigned int denom_marker)
 {
-  int denoms[] = {2000, 500, 100, 50, 20, 10, 5, 1};
+  denom notes = denominations;
 
   for (int i = 0; i < 8; i++)
   {
-    unsigned int denom_count = (denom_marker & 0xf0000000) >> 28;
-    printf("%u notes of %u\n", denom_count, denoms[i]);
+    unsigned int denom_count = (denom_marker & hex_msb) >> 28;
+    printf("%u notes of %u\n", denom_count, notes[i]);
     denom_marker = denom_marker << 4;
   }
 }
@@ -19,7 +21,7 @@ int main(void)
 
   for (int i = 0; i < 6; i++)
   {
-    printf("Amount ==> %u\n\n", amounts[i]);
+    printf("Amount ==> %hu\n\n", amounts[i]);
     print_denoms(get_money(amounts[i]));
     printf("\n");
   }
